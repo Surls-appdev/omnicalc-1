@@ -26,6 +26,22 @@ class ApplicationController < ActionController::Base
 
   end
 
+  def blank_payment_form
+    render({ :template => "calculation_templates/payment_form.html.erb"})
+  end
+
+  def calculate_payment
+    
+    @apr = params.fetch("user_apr").to_f
+    @years = params.fetch("user_years").to_i
+    @principal = params.fetch("user_pv").to_f
+    # @payment = (r(PV)/(1-(r+r)**-n))
+    # PV = Present Value = 
+    # r = rate per period = 
+    # n = number of periods = @years*12
+    
+    render({ :template =>"calculation_templates/payment_calc.html.erb"})
+  end
 
   def blank_random_form
     render({ :template => "calculation_templates/rand_form.html.erb"})
