@@ -32,10 +32,17 @@ class ApplicationController < ActionController::Base
 
   def calculate_payment
     
-    @apr = params.fetch("user_apr").to_f
+    @apr_string = params.fetch("user_apr").to_f # used for the webpage, not the calculations
+    @apr = params.fetch("user_apr").to_f/100
     @years = params.fetch("user_years").to_i
     @principal = params.fetch("user_pv").to_f
+    @months = @years.to_f*12
+    @mpr = @apr/12
     # @payment = (r(PV)/(1-(r+r)**-n))
+    @r = (1+@mpr)**(@months)
+    @numerator = @principal*@mpr*@r
+    @denominator = (@r-1)
+    @monthlypayment = @numerator/@denominator
     # PV = Present Value = 
     # r = rate per period = 
     # n = number of periods = @years*12
